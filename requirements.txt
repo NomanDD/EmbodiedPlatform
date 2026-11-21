@@ -1,0 +1,11 @@
+# 仿真核心
+mujoco>=3.1.0,<4.0.0
+numpy>=1.24,<3.0
+
+# Qt 渲染与交互（qt_run.py / viewer_widget.py）
+PyQt6>=6.5,<7.0
+PyOpenGL>=3.1
+glfw>=2.5
+
+# 仅用于生成介绍 PPT（make_intro_ppt.py / make_comparison_ppt.py，可选）
+python-pptx>=0.6.21

@@ -1,0 +1,77 @@
+<mujoco model="tracked_robot">
+  <compiler angle="radian" coordinate="local"/>
+  
+  <default>
+    <joint armature="1" damping="1"/>
+    <geom condim="4" friction="1 0.5 0.01"/>
+    <motor ctrllimited="true"/>
+  </default>
+
+  <asset>
+    <texture type="2d" name="grid" builtin="checker" rgb1="0.4 0.5 0.4" rgb2="0.5 0.6 0.5" width="512" height="512"/>
+    <material name="grid_mat" texture="grid" texrepeat="4 4" reflectance="0.1"/>
+    <material name="robot_mat" rgba="0.2 0.6 0.8 1"/>
+    <material name="track_mat" rgba="0.1 0.1 0.1 1"/>
+    <material name="wheel_mat" rgba="0.3 0.3 0.3 1"/>
+  </asset>
+
+  <worldbody>
+    <!-- Robot base -->
+    <body name="base" pos="0 0 0.2">
+      <freejoint name="base_joint"/>
+      
+      <!-- Main body -->
+      <geom name="body" type="box" size="0.3 0.2 0.1" material="robot_mat" mass="5"/>
+      
+      <!-- Left track -->
+      <body name="left_track" pos="0 0.25 0">
+        <geom name="left_track_geom" type="cylinder" size="0.08 0.35" material="track_mat" mass="1"/>
+        
+        <!-- Left wheels -->
+        <body name="left_front_wheel" pos="0.2 0 0">
+          <freejoint name="left_front_wheel_joint"/>
+          <geom name="left_front_wheel_geom" type="cylinder" size="0.06 0.02" material="wheel_mat" mass="0.5"/>
+        </body>
+        
+        <body name="left_rear_wheel" pos="-0.2 0 0">
+          <freejoint name="left_rear_wheel_joint"/>
+          <geom name="left_rear_wheel_geom" type="cylinder" size="0.06 0.02" material="wheel_mat" mass="0.5"/>
+        </body>
+      </body>
+      
+      <!-- Right track -->
+      <body name="right_track" pos="0 -0.25 0">
+        <geom name="right_track_geom" type="cylinder" size="0.08 0.35" material="track_mat" mass="1"/>
+        
+        <!-- Right wheels -->
+        <body name="right_front_wheel" pos="0.2 0 0">
+          <freejoint name="right_front_wheel_joint"/>
+          <geom name="right_front_wheel_geom" type="cylinder" size="0.06 0.02" material="wheel_mat" mass="0.5"/>
+        </body>
+        
+        <body name="right_rear_wheel" pos="-0.2 0 0">
+          <freejoint name="right_rear_wheel_joint"/>
+          <geom name="right_rear_wheel_geom" type="cylinder" size="0.06 0.02" material="wheel_mat" mass="0.5"/>
+        </body>
+      </body>
+      
+      <!-- Sensor tower -->
+      <body name="sensor_tower" pos="0 0 0.15">
+        <geom name="tower" type="cylinder" size="0.05 0.1" material="robot_mat" mass="0.5"/>
+        <geom name="sensor" type="sphere" size="0.03" rgba="1 0 0 1" pos="0 0 0.1"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <!-- Left track motor -->
+    <motor name="left_track_motor" joint="left_track" gear="100" ctrlrange="-1 1"/>
+    
+    <!-- Right track motor -->
+    <motor name="right_track_motor" joint="right_track" gear="100" ctrlrange="-1 1"/>
+  </actuator>
+
+  <sensor>
+    <touch name="body_touch" geom="body"/>
+  </sensor>
+</mujoco>
